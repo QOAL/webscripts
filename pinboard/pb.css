@@ -1,0 +1,49 @@
+body {
+	font-family: verdana, arial, helvetica, sans-serif; font-size: 12px;
+	background-color: #202020; color: #000000; margin-top: 5px; margin-left: 0; margin-right: 0; margin-bottom: 0;
+}
+
+a:link {color: #000000;}
+a:visited {color: #000000;}
+a:hover {color: #000000; text-decoration: none;}
+
+div.pbm {
+	padding: 5px;
+	position: absolute;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+input {
+	color: #dcdcdc;
+	font-size: 12px;
+	font-family: verdana, arial, helvetica, sans-serif;
+	border: 0px;
+	height: 20px;
+	width: 50px;
+	background: url(images/button.png) center no-repeat;
+	background-position: 0 0;
+}
+
+input:hover {
+	background-position: 0 -20px;
+}
+
+input:active {
+	background-position: 0 -40px;
+}
+
+textarea {
+	color: #000000;
+	font-size: 12px;
+	font-family: verdana, arial, helvetica, sans-serif;
+	border: 0px;
+	padding: 4px;
+	overflow: hidden;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+img {
+	border: 0;
+}

@@ -1,0 +1,56 @@
+	Pin board - a AJAX pin board
+	Copyright (C) 2008-2009 Scott Ellis
+
+Just a quick write up of how to get this up and running.
+
+-> Place/upload the contents of the zip to your desired location.
+(this file and the agpl-3.txt aren't needed for operational use, but you knew that.)
+
+You should be good to go!
+
+No? Then read on.
+
+-> Not happy with the paths of stuff? (the images/pb.txt)
+Well that's okay, open pinboard.php in a text editor and you'll see:
+	$PB_FILE = "pb.txt";
+	$IMGS_PATH = "images/";
+Just change the values to how you want it/have it.
+
+
+-> If you change the $IMGS_PATH then you also need to edit the pb.css file to reflect this.
+Change the path for the input's background:
+	input {
+		/*stuff*/
+		background: url(images/button.png) center no-repeat;
+		/*stuff*/
+	}
+Annoying extra step, I know.
+
+
+-> You can also change the time zone the script uses, default is GMT.
+	date_default_timezone_set('GMT');
+Time is used to record when a message was posted and is only used internally.
+
+
+-> You can change the size of the area where you can post messages inside by editing:
+	$BOARD_SIZE_X = 2000;
+	$BOARD_SIZE_Y = 2000;
+The size uses pixels. (Hi, I'm Mr Obvious!)
+
+
+-> How do I remove unwanted messages?
+You'll need to edit the $PB_FILE, just remove the line with the message you dont want.
+
+
+-> Can I post URLS?
+Yes, but only if you edit the $PB_FILE, posting urls from the pinboard is not allowed
+since spammers would have a field day.
+the BBcode is [url=URL]TEXT[/url] or just [url]URL[/url].
+
+
+-> I'm a better coder than you, would you like some help? (etc)
+Yeah, sure why not.
+
+
+-> This README sucks.
+Yup, but pinboard is pretty straight forward anyway so why are you reading this?
