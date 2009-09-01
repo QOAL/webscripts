@@ -43,13 +43,6 @@ String.prototype.count = function(match) {
 	return res.length;
 }
 
-function over() {
-	overandout = 1;
-}
-function out() {
-	overandout = 0;
-}
-
 function reloadcheck() {
 	if (document.getElementById("pb").style.visibility == "hidden" && updating == 0) {
 		tick = tick + 1;
@@ -84,33 +77,35 @@ function update(evt) {
 		}
 	}
 }
+
 function postmsg() {
 	if (mouseX < 0 | mouseY < 0 | mouseX > boardSizeX | mouseY > boardSizeY) {
 		document.getElementById("status").innerHTML = "Position out of bounds.";
-		document.getElementById("status").style.width = "150px";
-		document.getElementById("status").style.visibility = "visible";
 	} else {
 		if (document.getElementById("msg").value.trim() != "") {
 			if (updating == 0 && posting == 0) {
 				ajaxFunction(document.getElementById("msg").value,MXY,"pbpost","status"," Posting...");
-				document.getElementById("status").style.width = "75px";
-				document.getElementById("status").style.visibility = "visible";
 				posting = 1;
 			} else {
 				document.getElementById("status").innerHTML = "Wait a sec; updating...";
-				document.getElementById("status").style.width = "150px";
-				document.getElementById("status").style.visibility = "visible";
 			}
 		} else {
 			document.getElementById("status").innerHTML = "No message to post. :(";
-			document.getElementById("status").style.width = "150px";
-			document.getElementById("status").style.visibility = "visible";
 		}
 	}
+	document.getElementById("status").style.visibility = "visible";
+	document.getElementById("status").style.width = document.getElementById("status").innerHTML.getWidth(rStyle) + 5 + "px";
 }
 
 //From http://twelvestone.com/forum_thread/view/32353
 //Assuming this function is in the 'public domain'.
+
+//Needed for the text areas style when getting width. Work around? :S
+rStyle = {};
+rStyle.fontSize = "12px";
+rStyle.fontFamily = "verdana, arial, helvetica, sans-serif";
+rStyle.padding = "5px";
+
 String.prototype.getWidth = function(styleObject){
 	var test = document.createElement("span");
 	document.body.appendChild(test);
@@ -124,15 +119,11 @@ String.prototype.getWidth = function(styleObject){
 	return w;
 }
 
-//Needed for the text areas style when getting width. Work around? :S
-rStyle = {};
-rStyle.fontSize = "12px";
-rStyle.fontFamily = "verdana, arial, helvetica, sans-serif";
-rStyle.padding = "5px";
-
 function resize() {
 	var str = document.getElementById("msg").value;
 	document.getElementById("msg").rows = str.count("\n") + 1;
+	//Doesn't add a line if the new line is currently blank
+	//Also could this whole size duping be done in a better way?
 	var foo = str.split("\n");
 	var longest = "";
 	for (x = 0; x < foo.length; x++) {
@@ -140,16 +131,30 @@ function resize() {
 			longest = foo[x];
 		}
 	}
-	document.getElementById("msg").style.width = longest.getWidth(rStyle) + "px";
+	document.getElementById("msg").style.width = longest.getWidth(rStyle) + 5 + "px";
 }
 
-if(document.all)
-{
-	document.attachEvent("onclick", update);
-} else {
-	document.addEventListener("click", update, false);
+function pbInit() {
+	setInterval(reloadcheck, 1000);
+	document.getElementById("msgs").style.width = boardSizeX + 'px';
+	document.getElementById("msgs").style.height = boardSizeY + 'px';
+	if (document.all)
+	{
+		document.attachEvent("onclick", update);
+		document.getElementById("pb").attachEvent("onmouseover", function() { overandout = 1; });
+		document.getElementById("pb").attachEvent("onmouseout", function() { overandout = 0; });
+		document.getElementById("msg").attachEvent("onkeypress", resize);
+		document.getElementById("msg").attachEvent("onkeyup", resize);
+	} else {
+		document.addEventListener("click", update, false);
+		document.getElementById("pb").addEventListener("mouseover", function() { overandout = 1; }, false);
+		document.getElementById("pb").addEventListener("mouseout", function() { overandout = 0; }, false);
+		document.getElementById("msg").addEventListener("keypress", resize, false);
+		document.getElementById("msg").addEventListener("keyup", resize, false);
+	}
 }
 
+//The function could be made much nicer!
 function ajaxFunction(str, str2, type, resid, waitmsg)
 {
 var xmlHttp;
@@ -198,12 +203,10 @@ catch (e)
 			document.getElementById('msg').value = "";
 			document.getElementById(resid).innerHTML = "";
 			document.getElementById(resid).style.visibility = "hidden";
-			document.getElementById("msg").rows = 1;
-			document.getElementById("msg").cols = 1;
 		      } else {
 			document.getElementById(resid).style.visibility = "visible";
 			document.getElementById(resid).innerHTML = rstr;
-			document.getElementById(resid).style.width = "150px";
+			document.getElementById(resid).style.width = rstr.getWidth(rStyle) + 5 + "px";
 		      }
 		      posting = 0;
 	      } else { //list reply
@@ -223,6 +226,7 @@ catch (e)
 		if (updating == 1) {updating = 0;}
 		if (posting == 1) {posting = 0;}
 	}
+	resize();
       }
     }
   var url = "pinboard.php";
@@ -231,3 +235,5 @@ catch (e)
   xmlHttp.send(null);
   document.getElementById(resid).innerHTML = "<img src='" + wait_image.src + "' alt='wait' />" + waitmsg;
 }
+
+//onLoad = pbInit(); //fails for some reason so we need to call it from in the page

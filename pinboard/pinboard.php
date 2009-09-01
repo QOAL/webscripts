@@ -130,16 +130,16 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	</script>
 	<script type="text/javascript" src="pb.js"></script>
 </head>
-<body onload="setInterval(reloadcheck, 1000);">
+<body onload="pbInit();">
 <div id="msgs">
 ' . getNewMSGs(0) . '</div>
 <div class="pbm" style="left:5px;top:5px;background:#' . random_hex_color() . ';">Click anywhere to add a message!</div>
-<div id="pb" onmouseover="over();" onmouseout="out();" style="position:absolute;visibility:hidden;">
+<div id="pb" style="position:absolute;visibility:hidden;">
 	<form enctype="multipart/form-data" action="pinboard.php" method="post">
-		<textarea class="tastyle" name="msg" id="msg" rows="1" cols="10" onkeypress="resize();"></textarea>
-		<div style="position:absolute;left:51px;top:-20px;height:17px;visibility:hidden;font-size:12px;padding-left:1px;padding-top:3px;opacity:0.8;filter:alpha(opacity=80);" id="status"></div>
+		<textarea class="tastyle" name="msg" id="msg" rows="1" cols="5"></textarea>
+		<div id="status" class="status"></div>
 		<div style="position:absolute;left:0px;top:-20px;">
-			<input type="button" onclick="postmsg();" id="ok" name="ok" value="Okay!" />
+			<input type="button" onclick="postmsg();" name="ok" value="Okay!" />
 		</div>
 	</form>
 </div>

@@ -14,6 +14,19 @@ div.pbm {
 	filter: alpha(opacity=80);
 }
 
+div.status {
+	position: absolute;
+	left: 51px;
+	top: -20px;
+	height: 17px;
+	visibility: hidden;
+	font-size: 12px;
+	padding-left: 1px;
+	padding-top: 3px;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+}
+
 input {
 	color: #dcdcdc;
 	font-size: 12px;
