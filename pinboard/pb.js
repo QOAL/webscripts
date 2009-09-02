@@ -94,7 +94,7 @@ function postmsg() {
 		}
 	}
 	document.getElementById("status").style.visibility = "visible";
-	document.getElementById("status").style.width = document.getElementById("status").innerHTML.getWidth(rStyle) + 5 + "px";
+	document.getElementById("status").style.width = document.getElementById("status").innerHTML.getWidth(rStyle) + "px";
 }
 
 //From http://twelvestone.com/forum_thread/view/32353
@@ -131,7 +131,7 @@ function resize() {
 			longest = foo[x];
 		}
 	}
-	document.getElementById("msg").style.width = longest.getWidth(rStyle) + 5 + "px";
+	document.getElementById("msg").style.width = longest.getWidth(rStyle) + "px";
 }
 
 function pbInit() {
@@ -206,7 +206,7 @@ catch (e)
 		      } else {
 			document.getElementById(resid).style.visibility = "visible";
 			document.getElementById(resid).innerHTML = rstr;
-			document.getElementById(resid).style.width = rstr.getWidth(rStyle) + 5 + "px";
+			document.getElementById(resid).style.width = rstr.getWidth(rStyle) + "px";
 		      }
 		      posting = 0;
 	      } else { //list reply
