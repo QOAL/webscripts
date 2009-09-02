@@ -135,7 +135,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<link rel="stylesheet" type="text/css" href="qonsole.css" />
 	<script type="text/javascript" src="qonsole.js"></script>
 </head>
-<body>
+<body onload="qonsoleInit();">
 	<div id="qframe" class="qframe">
 		<div id="qonsole" class="qonsole"><big><b>Qonsole</b></big><br />&bull; Need <a href="#q:help">help</a>?<br /></div>
 		<div class="qinput"><b>&raquo;</b> <input type="text" id="qinput"></div>

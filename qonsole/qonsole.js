@@ -28,6 +28,7 @@ var slidetimer = 0;
 var sliding = false;
 var slidedir = false;
 var inputhistory = [];
+var historypos = 0;
 var oldhash = "";
 
 function fireconsole(evt) {
@@ -36,7 +37,7 @@ function fireconsole(evt) {
 	} catch(ex){
 		var key = evt.which;
 	}
-	if (key == 189) { //` 96
+	if (key == 96) { //` (189 is 1/2, for DK people ;)
 		if (consolefocused == true) {
 			if (document.all) {
 				window.event.returnValue = null;
@@ -46,15 +47,12 @@ function fireconsole(evt) {
 		}
 		if (sliding == false) {
 			if (consolehidden == true) {
-				//document.getElementById("qframe").style.top = "0px";
 				document.getElementById("qframe").style.visibility = "visible";
 				slidedir = false;
 				slidetimer = setInterval("slide(" + slidedir + ")", 10);
 				document.getElementById("qinput").focus();
 				sliding = true;
 			} else {
-				/*document.getElementById("qframe").style.top = (-document.getElementById("qframe").offsetHeight - 10) + "px";
-				document.getElementById("qframe").style.visibility = "hidden";*/
 				slidedir = true;
 				slidetimer = setInterval("slide(" + slidedir + ")", 10);
 				document.getElementById("qinput").blur();
@@ -78,19 +76,22 @@ function fireconsole(evt) {
 		if (document.getElementById("qinput").value != "") {
 			//Do processing of input, using via ajax where needed
 			qin = document.getElementById("qinput").value;
-			inputhistory[1] = qin;
+			historypos = inputhistory.push(qin);
 			toQonsole("<b>></b> <em>" + htmlspecialchars(qin) + "</em>");
 			document.getElementById("qinput").value = "";
 			parseInput(qin);
 			document.getElementById('qinput').focus(); //keep the focus
 		}
 	}
-	if (key == 38 && consolefocused == true) { //up
-		//alert("hi");
-		//var tmp = inputhistory.length;
-		//document.getElementById('qinput').value = inputhistory[tmp];
-		//UGH wtf I can't get arrow key input?!
-		//And for some reason I failed(?) at adding a listening to the text input so I could check it too, or I failed.
+	if (key == 38 && consolefocused == true && inputhistory.length > 0) { //up
+		historypos--;
+		if (historypos < 0) { historypos = 0; }
+		document.getElementById("qinput").value = inputhistory[historypos];
+	}
+	if (key == 40 && consolefocused == true && inputhistory.length > 0) { //down
+		historypos++;
+		if (historypos > inputhistory.length - 1) { historypos = inputhistory.length - 1; }
+		document.getElementById("qinput").value = inputhistory[historypos];
 	}
 }
 
@@ -163,6 +164,7 @@ function parseInput(qin) {
 
 		case "echo":
 		case "print":
+		case "say":
 			toQonsole(htmlspecialchars(args));
 			break;
 
@@ -182,8 +184,6 @@ function parseInput(qin) {
 function slide(dir) {
 	//true = up, false = down
 	if (dir == true) {
-		//-(document.getElementById("qframe").offsetHeight)
-		//Best to use a known height for the qonsole
 		document.getElementById("qframe").style.top = document.getElementById("qframe").offsetTop - 10 + "px";
 		if (document.getElementById("qframe").offsetTop <= -250 - 10) {
 			document.getElementById("qframe").style.top = -250 - 10 + "px";
@@ -239,12 +239,14 @@ function qonsoleInit() {
 		document.getElementById("qframe").attachEvent("onclick", function() { document.getElementById('qinput').focus(); });
 		document.getElementById("qinput").attachEvent("onfocus", function() { consolefocused = true; });
 		document.getElementById("qinput").attachEvent("onblur", function() { consolefocused = false; });
+		document.getElementById("qinput").attachEvent("onkeydown", fireconsole);
 	} else {
 		document.addEventListener("keypress", fireconsole, false);
 		window.addEventListener("resize", resizeinput, false);
 		document.getElementById("qframe").addEventListener("click", function() { document.getElementById('qinput').focus(); }, false);
 		document.getElementById("qinput").addEventListener("focus", function() { consolefocused = true; }, false);
 		document.getElementById("qinput").addEventListener("blur", function() { consolefocused = false; }, false);
+		document.getElementById("qinput").addEventListener("keydown", fireconsole, false);
 	}
 }
 
@@ -296,4 +298,4 @@ function ajax(str) {
 	document.getElementById("qinput").disabled = true;
 }
 
-onLoad=qonsoleInit();
+//onLoad=qonsoleInit();
