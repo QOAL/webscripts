@@ -34,8 +34,10 @@ var oldhash = "";
 function fireconsole(evt) {
 	try {
 		var key = window.event.keyCode;
+		var shift = window.event.shiftKey;
 	} catch(ex){
 		var key = evt.which;
+		var shift = evt.shiftKey;
 	}
 	if (key == 96) { //` (189 is 1/2, for DK people ;)
 		if (consolefocused == true) {
@@ -83,12 +85,12 @@ function fireconsole(evt) {
 			document.getElementById('qinput').focus(); //keep the focus
 		}
 	}
-	if (key == 38 && consolefocused == true && inputhistory.length > 0) { //up
+	if (key == 38 && !shift && consolefocused == true && inputhistory.length > 0) { //up
 		historypos--;
 		if (historypos < 0) { historypos = 0; }
 		document.getElementById("qinput").value = inputhistory[historypos];
 	}
-	if (key == 40 && consolefocused == true && inputhistory.length > 0) { //down
+	if (key == 40 && !shift && consolefocused == true && inputhistory.length > 0) { //down
 		historypos++;
 		if (historypos > inputhistory.length - 1) { historypos = inputhistory.length - 1; }
 		document.getElementById("qinput").value = inputhistory[historypos];
