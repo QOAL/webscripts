@@ -102,7 +102,7 @@ function parseInput(qin) {
 	if (qin.substr(0,11) == "javascript:" || qin.substr(0,3) == "js:") {
 		if (qin.substr(0,3) == "js:") { pos = 3; } else { pos = 11; }
 		toQonsole("Parsing javascript input... ");
-		if (qin.substr(qin.lenght-1,1) != ";") {
+		if (qin.substr(qin.length - 1, 1) != ";") {
 			qin += ";"; //lame attempt at stopping script errors breaking proceedings 
 		}
 		try {
@@ -274,7 +274,7 @@ function ajax(str) {
 		if (xmlHttp.readyState==4) {
 			if (xmlHttp.status == 200) {
 				var qresponse = xmlHttp.responseText;
-				if (qresponse.substr(qresponse.lenght-1,1) != ";") {
+				if (qresponse.substr(qresponse.length - 1,1) != ";") {
 					qresponse += ";"; //lame attempt at stopping script errors breaking proceedings 
 				}
 				try {
