@@ -135,7 +135,7 @@ function resize() {
 }
 
 function pbInit() {
-	setInterval(reloadcheck, 1000);
+	setInterval(reloadcheck, 10000);
 	document.getElementById("msgs").style.width = boardSizeX + 'px';
 	document.getElementById("msgs").style.height = boardSizeY + 'px';
 	if (document.all)
