@@ -179,7 +179,7 @@ function parseInput(qin) {
 
 		default:
 			//Send the command via AJAX to the php for parsing.
-			ajax(qin);
+			qajax(qin);
 	}
 }
 
@@ -205,6 +205,9 @@ function slide(dir) {
 
 function toQonsole(str) {
 	document.getElementById("qonsole").innerHTML += "<br />" + str;
+}
+function toq(str) {
+	toQonsole(str);
 }
 
 function htmlspecialchars(str) {
@@ -252,7 +255,7 @@ function qonsoleInit() {
 	}
 }
 
-function ajax(str) {
+function qajax(str) {
 	var xmlHttp;
 	try {
 		// Firefox, Opera 8.0+, Safari
