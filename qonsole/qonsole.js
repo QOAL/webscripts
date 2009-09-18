@@ -22,6 +22,7 @@ String.prototype.trim = function() {
 	return this.replace(/^\s+|\s+$/g, "");
 }
 
+var maxLines = 20; //Maximum number of lines in to show in the qonsole
 var consolefocused = false;
 var consolehidden = true;
 var slidetimer = 0;
@@ -204,6 +205,14 @@ function slide(dir) {
 }
 
 function toQonsole(str) {
+	if (document.getElementById("qonsole").innerHTML.split("<br").length > maxLines - 1) {
+		qText = document.getElementById("qonsole").innerHTML;
+		removeNum = qText.split("<br").length - maxLines;
+		for (i = 0; i <= removeNum; i++) {
+			qText = qText.substr(qText.search("<br") + 4);
+		}
+		document.getElementById("qonsole").innerHTML = qText;
+	}
 	document.getElementById("qonsole").innerHTML += "<br />" + str;
 }
 function toq(str) {
