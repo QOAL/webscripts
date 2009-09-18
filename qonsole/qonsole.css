@@ -18,7 +18,7 @@ div.qonsole {
 }
 
 div.qframe {
-	background: rgba(64,0,128,0.75);
+	background: black; /*rgba(64,0,128,0.75);*/
 	position: fixed;
 	top: -250px;
 	left: 0px;
