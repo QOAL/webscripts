@@ -19,7 +19,7 @@
 
 //Is my code tidy and easy to read + understand? (And all needed?)
 
-date_default_timezone_set('GMT');
+date_default_timezone_set('Europe/London');
 if (get_magic_quotes_gpc()) {
     function stripslashes_deep($value)
     {

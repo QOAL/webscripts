@@ -40,7 +40,7 @@ function fireconsole(evt) {
 		var key = evt.which;
 		var shift = evt.shiftKey;
 	}
-	if (key == 96 || key == 189) { //` (189 is 1/2, for DK people ;)
+	if ((key == 96 || key == 126 || key == 189) && !shift) { //96 = ` (uk),  126 = ~ (usa?), 189 = 1/2, for DK people ;)
 		if (consolefocused == true) {
 			if (document.all) {
 				window.event.returnValue = null;
