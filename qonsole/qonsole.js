@@ -246,7 +246,11 @@ function anchorCheck() {
 
 function qonsoleInit() {
 	resizeinput();
-	setInterval(anchorCheck, 500);
+	if ("onhashchange" in window) {
+		window.onhashchange = anchorCheck;
+	} else {
+		setInterval(anchorCheck, 500);
+	}
 	if (document.all) {
 		document.attachEvent("onkeypress", fireconsole);
 		window.attachEvent("onresize", resizeinput);
