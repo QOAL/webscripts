@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<style>
+		body {
+			font-family: verdana, arial, helvetica, sans-serif; font-size: 12px;
+			background: #202020; color: #000000; margin: 0px;
+		}
+		.container {
+			background: #ddd;
+			width: 250px;
+			padding: 10px;
+			border: 1px solid;
+			border-color: #fff #aaa #999 #eee;
+			margin: 250px auto 0 auto;
+			-moz-box-shadow: 10px 10px 50px black;
+		}
+		.demoTitle {
+			text-align: center;
+			font-size: 18px;
+			letter-spacing: +2px;
+		}
+		.spacer {
+			height: 1px;
+			margin: 8px 0 8px 0;
+			background: #bbb;
+			border-bottom: 1px solid #fff;
+		}
+		input {
+			color: #dcdcdc;
+			font-size: 10px;
+			font-family: verdana, arial, helvetica, sans-serif;
+			border: 0px;
+			height: 20px;
+			width: 75px;
+			background: url(images/button.gif) center no-repeat;
+			background-position: 0 0;
+		}
+
+		input:hover {
+			background-position: 0 -20px;
+		}
+
+		input:active {
+			background-position: 0 -40px;
+		}
+
+		input.text{
+			color: #000;
+			background:#fff;
+			font-size: 10px;
+			font-family: verdana, arial, helvetica, sans-serif;
+			border: 1px #c0c0c0 solid;
+			height: 14px;
+			width: 200px;
+			padding-left: 3px;
+			line-height: 20px;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-moz-box-shadow: inset 1px 1px 3px #444;
+			-webkit-box-shadow: inset 1px 1px 3px #444;
+		}
+
+		input.text:hover{
+			border: 1px #a4a4a4 solid;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="calendar.css" />
+	<script type="text/javascript" src="calendar.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="demoTitle">Simple calendar demo</div><div class="spacer"></div>
+		This is a styled span <span id="d1" class="pickDateDiv" onclick="showCalendar(this,'calendar')">DD/MM/YYYY</span>, fun!
+		<br />
+		<br />
+		Just a plain div: <div id="d2" onclick="showCalendar(this,'calendar')">DD/MM/YYYY</div>
+		<br />
+		Text input: <input type="text" maxlength="10" id="d3" value="DD/MM/YYYY" class="text date" ondblclick="showCalendar(this,'calendar')" onkeyup="validateInputDate(this)" onblur="validateInputDate(this)"/>
+		<div class="calendar" id="calendar" onselectstart="return false;">Something is missing in me.</div>
+	</div>
+</body>
+</html>
