@@ -135,7 +135,7 @@ function isValidDate(str) {
 }
 
 function validateInputDate(object) {
-	if (cRefObj.innerHTML) {
+	if (object.innerHTML) {
 		var dateStr = object.innerHTML;
 	} else {
 		var dateStr = object.value;
