@@ -59,7 +59,7 @@ function changeMonth(amount, object) {
 		cMonth += 12;
 		cYear--;
 	}
-	object.parentNode.innerHTML = calendar(new Date(cYear, cMonth, cDay));
+	object.parentNode.innerHTML = calendar(new Date(cYear, cMonth, 1)); //1 rather than cDay, otherwise we could skip a month!
 }
 
 function setSelectedDay(day, object) {
