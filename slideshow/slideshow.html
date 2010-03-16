@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<title>Slide Show</title>
+		<link rel="stylesheet" type="text/css" href="slideshow.css" />
+		<script type="text/javascript" src="slideshow.js"></script>
+	<style type="text/css" media="screen">
+		body {
+			background: #fff;
+			margin: 10px 0 0 0;
+			font-family: verdana, arial, helvetica, sans-serif;
+			font-size: small;
+			overflow-y: scroll;
+			line-height: 1.3em;
+		}
+		#container {
+			margin-right: auto;
+			margin-left: auto;
+			width: 900px;
+			padding: 10px;
+			background: #f0f0f0;
+			background-image: -moz-linear-gradient(top, #e0e0e0, #fff, #f0f0f0, #e0e0e0);
+			border: 1px solid #fff;
+			-moz-box-shadow: 2px 2px 10px #888;
+			-webkit-box-shadow: 2px 2px 10px #888;
+			-moz-border-radius: 25px;
+			-webkit-border-radius: 25px;
+		}
+		pre {
+			background: rgba(255, 255, 255, .1);
+			padding: 5px;
+			-moz-box-shadow: 0 0 5px #aaa;
+			-webkit-box-shadow: 0 0 5px #aaa;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+		}
+		#simpleExample {
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: 5px;
+			border: 1px solid #fff;
+ 			-moz-box-shadow: 0 0 5px #aaa;
+			-webkit-box-shadow: 0 0 5px #aaa;
+		}
+		h1, h3 { margin: 0; }
+		h1 {
+			text-align: center;
+			font-size: xx-large;
+			letter-spacing: +2px;
+			font-weight: lighter;
+			height: 30px;
+			color: #fff;
+			text-shadow: 0 0 2px #fff, 1px 1px 2px #666;
+		}
+		.line {
+			height: 1px;
+			background: #ccc;
+			border-bottom: 1px solid #fff;
+		}
+	</style>
+	</head>
+	<body>
+		<div id="container">
+		<h1>Slide show</h1>
+		<div class="line"></div>
+		<p>This script was inspired by the slide show on the BBC news website and has been extended upon, only taking reference of the input and output of their script.</p>
+
+		<h3>Example:<h3>
+		<div id="simpleExample" class="slideShow" style="width: 580px; height: 270px;">
+			<img src="1.png" alt="Bonjour" width="580px" height="270px" />
+		</div>
+		<script type="text/javascript">
+			startslideShow({ 
+				host: "simpleExample", 
+				imgs: [
+					{src: "1.png", alt: "Bonjour"},
+					{src: "2.png", alt: "A black and red flower"},
+					{src: "3.png", alt: "ROAR"},
+					{src: "4.png", alt: "hello."},
+					{src: "5.png", alt: "An attempt at drawing wood."},
+					{src: "6.png", alt: "My old mouse."}
+				]
+			});
+		</script>
+		
+		<br /><h3>Example code:</h3>
+		<pre><span style="color: #0000ff;font-weight: bold">&lt;div</span><span style="color: #000066;font-style:normal"> id=</span><span style="color: #ff0000;font-style:normal">&quot;simpleExample&quot;</span><span style="color: #000066;font-style:normal"> class=</span><span style="color: #ff0000;font-style:normal">&quot;slideShow&quot;</span><span style="color: #000066;font-style:normal"> style=</span><span style="color: #ff0000;font-style:normal">&quot;width: 580px; height: 270px;&quot;</span><span style="color: #0000ff;font-weight: bold">&gt;</span><br />  <span style="color: #0000ff;font-weight: bold">&lt;img</span><span style="color: #000066;font-style:normal"> src=</span><span style="color: #ff0000;font-style:normal">&quot;1.png&quot;</span><span style="color: #000066;font-style:normal"> alt=</span><span style="color: #ff0000;font-style:normal">&quot;Bonjour&quot;</span><span style="color: #000066;font-style:normal"> width=</span><span style="color: #ff0000;font-style:normal">&quot;580px&quot;</span><span style="color: #000066;font-style:normal"> height=</span><span style="color: #ff0000;font-style:normal">&quot;270px&quot;</span><span style="color: #0000ff;font-weight: bold"> /&gt;</span><br /><span style="color: #0000ff;font-weight: bold">&lt;/div&gt;</span><br /><span style="color: #0000ff;font-weight: bold">&lt;script</span><span style="color: #000066;font-style:normal"> type=</span><span style="color: #ff0000;font-style:normal">&quot;text/javascript&quot;</span><span style="color: #0000ff;font-weight: bold">&gt;</span><br />   startslideShow({ 
+  	host: &quot;simpleExample&quot;, 
+  	imgs: [
+  		{src: &quot;1.png&quot;, alt: &quot;Bonjour&quot;},
+  		{src: &quot;2.png&quot;, alt: &quot;A black and red flower&quot;},
+  		{src: &quot;3.png&quot;, alt: &quot;ROAR&quot;},
+  		{src: &quot;4.png&quot;, alt: &quot;hello.&quot;},
+  		{src: &quot;5.png&quot;, alt: &quot;An attempt at drawing wood.&quot;},
+  		{src: &quot;6.png&quot;, alt: &quot;My old mouse.&quot;}
+  	]
+  }); <br /><span style="color: #0000ff;font-weight: bold">&lt;/script&gt;</span><br /></pre>
+
+		<h3>Usage:</h3>
+		(X)HTML:<br />
+		You need a host container with an ID tag, it can contain anything you like (including nothing).<br />
+		It's recommended for accessibility that you have the first image of the slide show (as per the above example)
+		with an anchor tag around it, if the image/slide show has a link associated with it.<br /><br />
+		Javascript:<br />
+		As shown in the example above. Below is a complete list of configuration options.<br />
+		Global:<br />
+		<dl><dd><code>host</code> - ID of the element to host the slide show. - Required - Width and Height style tags are also required currently.</dd>
+		<dd><code>uri</code> - URI for the slide show. - Optional</dd>
+		<dd><code>fadeTime</code> - Transition time for fades, in ms. - Optional - Default: 1000</dd>
+		<dd><code>fastFadeTime</code> - Transition time for fast fades, in ms. - Optional - Default: 100; Using 0 affectively disables this.</dd>
+		<dd><code>holdTime</code> - Amount of time to display a image for the slide show, in ms. - Optional - Default: 5000</dd></dl>
+		Per img: <small>(You need at least two images or the slide show will not start; it wouldn't be much of a slide show otherwise.)</small><br />
+		<dl><dd><code>src</code> - URL of the image - Required</dd>
+		<dd><code>alt</code> - Alternative text for the image - Optional - Alt text will be set as <em>undefined</em> if left out.</dd>
+		<dd><code>uri</code> - Same as the global, but only applies to this image. - Optional</dd>
+		<dd><code>holdTime</code> - Same as the global, but only applies to this image. - Optional</dd></dl>
+
+		<h3>Current issues:</h3>
+		<ul><li><strong>The overlay glitches like mad</strong>, due to A) my poor coding B) the mouse going 'out' when the overlay comes up etc.</li>
+		<li>The overlay only seems to get attached to a single instance of a slide show that is the page, the other slide shows fire that slide shows overlay and don't have their own.</li>
+		<li>If you press previous while it's fading to the next, the transition isn't that great, though not too noticeable.</li>
+		<li>I wrote this.</li></ul>
+
+		<h3>Ideas:</h3>
+		<ul><li>Add keyboard navigation keys.</li>
+		<li>More run time user customisation options(?)</li></ul>
+	</body>
+	</div>
+</html>
