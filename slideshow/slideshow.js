@@ -100,16 +100,15 @@ function slideControls(k, ot) {
 		if (!slideShow[k].controls) { pos = 1 - pos; }
 		hostRef.childNodes[2].style.bottom = -pos * 50 + "px";
 		hostRef.childNodes[3].style.bottom = -pos * 50 + "px";
-		slideShow[k].controlsTimer = setTimeout("slideControls(" + k + "," + nt + ")", 50);
+		setTimeout("slideControls(" + k + "," + nt + ")", 50);
 	}
 }
 function overAndOut(state, k) {
-	//THIS IS BROKEN AND I'M TOO RETARDED TO WORK OUT HOW TO MAKE IT FUNCTION CORRECTLY
 	if (slideShow[k].controls != state) {
 		slideShow[k].controls = state;
 		if (state) {
 			clearTimeout(slideShow[k].controlsTimer);
-			slideControls(k);
+			if (document.getElementById(slideShow[k].host).childNodes[2].style.bottom != "0px" && !slideShow[k].sliding) { slideControls(k); }
 		} else {
 			clearTimeout(slideShow[k].controlsTimer);
 			slideShow[k].controlsTimer = setTimeout("slideControls(" + k + ")", 500);
