@@ -84,31 +84,27 @@ function slideControls(k, ot) {
 	var hostRef = document.getElementById(slideShow[k].host);
 	var nt = new Date().getTime();
 	slideShow[k].sliding = true;
-	if (!ot) {
-		ot = nt;
-		if (isNaN(slideShow[k].slideTimer)) { slideShow[k].slideTimer = 500; }
-	}
+	if (!ot) { ot = nt; }
 	td = nt - ot;
-	if (slideShow[k].slideTimer <= td) {
+	if ((slideShow[k].controls && slideShow[k].slideTimer <= td) || (!slideShow[k].controls && slideShow[k].slideTimer + td >= 500)) {
 		slideShow[k].sliding = false;
-		slideShow[k].slideTimer = 500;
+		slideShow[k].slideTimer = slideShow[k].controls ? 0 : 500;
 		hostRef.childNodes[2].style.bottom = (slideShow[k].controls ? 0 : -50) + "px";
 		hostRef.childNodes[3].style.bottom = (slideShow[k].controls ? 0 : -50) + "px";
 	} else { 
-		slideShow[k].slideTimer -= td;
+		slideShow[k].slideTimer += slideShow[k].controls ? -td : td;
 		pos = slideShow[k].slideTimer / 500;
-		if (!slideShow[k].controls) { pos = 1 - pos; }
 		hostRef.childNodes[2].style.bottom = -pos * 50 + "px";
 		hostRef.childNodes[3].style.bottom = -pos * 50 + "px";
-		setTimeout("slideControls(" + k + "," + nt + ")", 50);
+		setTimeout("slideControls(" + k + "," + nt + ")", 25);
 	}
 }
 function overAndOut(state, k) {
 	if (slideShow[k].controls != state) {
 		slideShow[k].controls = state;
-		if (state) {
+		if (state && !slideShow[k].sliding) {
 			clearTimeout(slideShow[k].controlsTimer);
-			if (document.getElementById(slideShow[k].host).childNodes[2].style.bottom != "0px" && !slideShow[k].sliding) { slideControls(k); }
+			if (document.getElementById(slideShow[k].host).childNodes[2].style.bottom != "0px") { slideControls(k); }
 		} else {
 			clearTimeout(slideShow[k].controlsTimer);
 			slideShow[k].controlsTimer = setTimeout("slideControls(" + k + ")", 500);
@@ -140,6 +136,7 @@ function startslideShow(info) {
 		info.fastFadeTime = info.fastFadeTime ? info.fastFadeTime : 100;
 		k = slideShow.push(info) - 1;
 		controls = hostRef.childNodes[3].childNodes[0].childNodes[0];
+		info.slideTimer = 500;
 		if (document.all) {
 			controls.childNodes[0].attachEvent("onclick", function() { changeFrame(-2, k); });
 			controls.childNodes[1].attachEvent("onclick", function() { togglePause(k); });
