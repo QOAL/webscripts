@@ -110,7 +110,8 @@
 		<dd><code>uri</code> - URI for the slide show. - Optional</dd>
 		<dd><code>fadeTime</code> - Transition time for fades, in ms. - Optional - Default: 1000</dd>
 		<dd><code>fastFadeTime</code> - Transition time for fast fades, in ms. - Optional - Default: 100; Using 0 affectively disables this.</dd>
-		<dd><code>holdTime</code> - Amount of time to display a image for the slide show, in ms. - Optional - Default: 5000</dd></dl>
+		<dd><code>holdTime</code> - Amount of time to display a image for the slide show, in ms. - Optional - Default: 5000</dd>
+		<dd><code>slideTime</code> - Amount of time it takes for the overlay to slide up or down, in ms. - Optional - Default: 250</dd></dl>
 		Per img: <small>(You need at least two images or the slide show will not start; it wouldn't be much of a slide show otherwise.)</small><br />
 		<dl><dd><code>src</code> - URL of the image - Required</dd>
 		<dd><code>alt</code> - Alternative text for the image - Optional - Alt text will be set as <em>undefined</em> if left out.</dd>
@@ -120,6 +121,7 @@
 		<h3>Current issues:</h3>
 		<ul><li>The overlay only seems to get attached to a single instance of a slide show that is the page, the other slide shows fire that slide shows overlay and don't have their own.</li>
 		<li>If you press previous while it's fading to the next, the transition isn't that great, though not too noticeable.</li>
+		<li>If the overlay is fired and then mouseout is called the menu should, like the BBCs, keep firing up and then wait the minimum amount of time before sliding back down.</li>
 		<li>I wrote this.</li></ul>
 
 		<h3>Ideas:</h3>

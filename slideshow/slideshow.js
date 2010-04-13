@@ -86,14 +86,14 @@ function slideControls(k, ot) {
 	slideShow[k].sliding = true;
 	if (!ot) { ot = nt; }
 	td = nt - ot;
-	if ((slideShow[k].controls && slideShow[k].slideTimer <= td) || (!slideShow[k].controls && slideShow[k].slideTimer + td >= 500)) {
+	if ((slideShow[k].controls && slideShow[k].slideTimer <= td) || (!slideShow[k].controls && slideShow[k].slideTimer + td >= slideShow[k].slideTime)) {
 		slideShow[k].sliding = false;
-		slideShow[k].slideTimer = slideShow[k].controls ? 0 : 500;
+		slideShow[k].slideTimer = slideShow[k].controls ? 0 : slideShow[k].slideTime;
 		hostRef.childNodes[2].style.bottom = (slideShow[k].controls ? 0 : -50) + "px";
 		hostRef.childNodes[3].style.bottom = (slideShow[k].controls ? 0 : -50) + "px";
 	} else { 
 		slideShow[k].slideTimer += slideShow[k].controls ? -td : td;
-		pos = slideShow[k].slideTimer / 500;
+		pos = slideShow[k].slideTimer / slideShow[k].slideTime;
 		hostRef.childNodes[2].style.bottom = -pos * 50 + "px";
 		hostRef.childNodes[3].style.bottom = -pos * 50 + "px";
 		setTimeout("slideControls(" + k + "," + nt + ")", 25);
@@ -107,7 +107,7 @@ function overAndOut(state, k) {
 			if (document.getElementById(slideShow[k].host).childNodes[2].style.bottom != "0px") { slideControls(k); }
 		} else {
 			clearTimeout(slideShow[k].controlsTimer);
-			slideShow[k].controlsTimer = setTimeout("slideControls(" + k + ")", 500);
+			slideShow[k].controlsTimer = setTimeout("slideControls(" + k + ")", slideShow[k].slideTime);
 		}
 	}
 }
@@ -134,9 +134,10 @@ function startslideShow(info) {
 		info.fadeTimer = info.fadeTime;
 		info.holdTime = info.holdTime ? info.holdTime : 5000;
 		info.fastFadeTime = info.fastFadeTime ? info.fastFadeTime : 100;
+		info.slideTime = info.slideTime ? info.slideTime : 250; //500 for BBC from the looks of it, but 250 is snappier.
+		info.slideTimer = info.slideTime;
 		k = slideShow.push(info) - 1;
 		controls = hostRef.childNodes[3].childNodes[0].childNodes[0];
-		info.slideTimer = 500;
 		if (document.all) {
 			controls.childNodes[0].attachEvent("onclick", function() { changeFrame(-2, k); });
 			controls.childNodes[1].attachEvent("onclick", function() { togglePause(k); });
