@@ -1,62 +1,60 @@
 body {
-	font-family: verdana, arial, helvetica, sans-serif; font-size: 12px;
-	background-color: #202020; color: #000000; margin: 0px;
+	background-color: #202020;
+	margin: 0;
 }
 
-a:link {color: #000000;}
-a:visited {color: #000000;}
-a:hover {color: #000000; text-decoration: none;}
+body, input, textarea {
+	font-size: 12px;
+	font-family: verdana, arial, helvetica, sans-serif;
+}
 
-div.pbm {
-	padding: 5px;
-	position: absolute;
-	opacity: 0.8;
+body, textarea, a:link { color: #000; }
+
+a:hover { text-decoration: none; }
+
+div.pbm, div.status, textarea {
+	opacity: .8;
 	filter: alpha(opacity=80);
 }
 
-div.status {
+div.pbm, div.status, textarea, input {
+	-moz-box-shadow: 0 0 5px #000;
+	-webkit-box-shadow: 0 0 5px #000;
+	box-shadow: 0 0 5px #000;
+	border: 0;
+}
+
+div.pbm, textarea {
+	padding: 5px;
+}
+
+div.pbm, div.status {
 	position: absolute;
+}
+
+div.status {
 	left: 51px;
 	top: -20px;
 	height: 17px;
 	visibility: hidden;
 	font-size: 12px;
-	padding-left: 1px;
-	padding-top: 3px;
-	opacity:0.8;
-	filter:alpha(opacity=80);
+	padding: 3px 0 0 1px;
 }
 
 input {
 	color: #dcdcdc;
-	font-size: 12px;
-	font-family: verdana, arial, helvetica, sans-serif;
-	border: 0px;
+	text-shadow: 1px 1px 1px #000;
 	height: 20px;
 	width: 50px;
-	background: url(images/button.png) center no-repeat;
-	background-position: 0 0;
+	background: url(images/button.png) no-repeat;
 }
 
-input:hover {
-	background-position: 0 -20px;
-}
+input:hover { background-position: 0 -20px; }
 
-input:active {
-	background-position: 0 -40px;
-}
+input:active { background-position: 0 -40px; }
 
 textarea {
-	color: #000000;
-	font-size: 12px;
-	font-family: verdana, arial, helvetica, sans-serif;
-	border: 0px;
-	padding: 4px;
 	overflow: hidden;
-	opacity: 0.8;
-	filter: alpha(opacity=80);
 }
 
-img {
-	border: 0;
-}
+img { border: 0; }

@@ -118,8 +118,7 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<title>Pin board</title>
 	<script type="text/javascript">
 	//<![CDATA[
-	if (document.images)
-	{
+	if (document.images) {
 		wait_image = new Image(10,10); 
 		wait_image.src="' . $IMGS_PATH . 'wait.gif"; 
 	}
@@ -130,7 +129,7 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	</script>
 	<script type="text/javascript" src="pb.js"></script>
 </head>
-<body onload="pbInit();">
+<body>
 <div id="msgs">
 ' . getNewMSGs(0) . '</div>
 <div class="pbm" style="left:5px;top:5px;background:#' . random_hex_color() . ';">Click anywhere to add a message!</div>
