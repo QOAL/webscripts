@@ -33,6 +33,7 @@ var historypos = 0;
 var oldhash = "";
 
 function fireconsole(evt) {
+	qInput = document.getElementById("qinput");
 	try {
 		var key = window.event.keyCode;
 		var shift = window.event.shiftKey;
@@ -53,12 +54,12 @@ function fireconsole(evt) {
 				document.getElementById("qframe").style.visibility = "visible";
 				slidedir = false;
 				slidetimer = setInterval("slide(" + slidedir + ")", 10);
-				document.getElementById("qinput").focus();
+				qInput.focus();
 				sliding = true;
 			} else {
 				slidedir = true;
 				slidetimer = setInterval("slide(" + slidedir + ")", 10);
-				document.getElementById("qinput").blur();
+				qInput.blur();
 				sliding = true;
 			}
 			consolehidden = !consolehidden;
@@ -66,35 +67,35 @@ function fireconsole(evt) {
 			clearInterval(slidetimer);
 			slidedir = !slidedir;
 			if (slidedir == true) {
-				document.getElementById("qinput").blur();
+				qInput.blur();
 			} else {
-				document.getElementById("qinput").focus();
+				qInput.focus();
 			}
 			slidetimer = setInterval("slide(" + slidedir + ")", 10);
 			consolehidden = !consolehidden;
 		}
 	}
 	if (key == 13 && consolefocused == true) { //enter
-		document.getElementById("qinput").value = document.getElementById("qinput").value.trim();
-		if (document.getElementById("qinput").value != "") {
+		qInput.value = qInput.value.trim();
+		if (qInput.value != "") {
 			//Do processing of input, using via ajax where needed
 			qin = document.getElementById("qinput").value;
 			historypos = inputhistory.push(qin);
 			toQonsole("<b>></b> <em>" + htmlspecialchars(qin) + "</em>");
-			document.getElementById("qinput").value = "";
+			qInput.value = "";
 			parseInput(qin);
-			document.getElementById('qinput').focus(); //keep the focus
+			qInput.focus(); //keep the focus
 		}
 	}
 	if (key == 38 && !shift && consolefocused == true && inputhistory.length > 0) { //up
 		historypos--;
 		if (historypos < 0) { historypos = 0; }
-		document.getElementById("qinput").value = inputhistory[historypos];
+		qInput.value = inputhistory[historypos];
 	}
 	if (key == 40 && !shift && consolefocused == true && inputhistory.length > 0) { //down
 		historypos++;
 		if (historypos > inputhistory.length - 1) { historypos = inputhistory.length - 1; }
-		document.getElementById("qinput").value = inputhistory[historypos];
+		qInput.value = inputhistory[historypos];
 	}
 }
 
@@ -122,8 +123,7 @@ function parseInput(qin) {
 		args = qin.substr(qin.indexOf(" ") + 1);
 	}
 
-	switch(cmd)
-	{
+	switch(cmd) {
 		case "hide":
 			if (consolehidden == false) {
 				slidedir = true;
@@ -186,18 +186,19 @@ function parseInput(qin) {
 
 function slide(dir) {
 	//true = up, false = down
+	qFrame = document.getElementById("qframe");
 	if (dir == true) {
-		document.getElementById("qframe").style.top = document.getElementById("qframe").offsetTop - 10 + "px";
-		if (document.getElementById("qframe").offsetTop <= -250 - 10) {
-			document.getElementById("qframe").style.top = -250 - 10 + "px";
-			document.getElementById("qframe").style.visibility = "hidden";
+		qFrame.style.top = qFrame.offsetTop - 10 + "px";
+		if (qFrame.offsetTop <= -250 - 10) {
+			qFrame.style.top = -250 - 10 + "px";
+			qFrame.style.visibility = "hidden";
 			sliding = false;
 			clearInterval(slidetimer);
 		}
 	} else {
-		document.getElementById("qframe").style.top = document.getElementById("qframe").offsetTop + 10 + "px";
-		if (document.getElementById("qframe").offsetTop >= 0) {
-			document.getElementById("qframe").style.top = 0 + "px";
+		qFrame.style.top = qFrame.offsetTop + 10 + "px";
+		if (qFrame.offsetTop >= 0) {
+			qFrame.style.top = 0 + "px";
 			sliding = false;
 			clearInterval(slidetimer);
 		}

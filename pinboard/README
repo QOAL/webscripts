@@ -14,7 +14,7 @@ No? Then read on.
 Well that's okay, open pinboard.php in a text editor and you'll see:
 	$PB_FILE = "pb.txt";
 	$IMGS_PATH = "images/";
-Just change the values to how you want it/have it.
+Just change the values to how you want to have it.
 
 
 -> If you change the $IMGS_PATH then you also need to edit the pb.css file to reflect this.

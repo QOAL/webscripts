@@ -1,6 +1,6 @@
 <?php
 /*
-    Pin board - a AJAX pin board
+    Pinboard - a AJAX pin board
     Copyright (C) 2008-2009 Scott Ellis
 
     This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <head>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	<link rel="stylesheet" title="default" type="text/css" href="pb.css" />
-	<title>Pin board</title>
+	<title>Pinboard</title>
 	<script type="text/javascript">
 	//<![CDATA[
 	if (document.images) {
