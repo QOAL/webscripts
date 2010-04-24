@@ -137,19 +137,24 @@ function startslideShow(info) {
 		info.slideTime = info.slideTime ? info.slideTime : 250; //500 for BBC from the looks of it, but 250 is snappier.
 		info.slideTimer = info.slideTime;
 		k = slideShow.push(info) - 1;
+		var cPreviousFrame = function(input){return function(){changeFrame(-2, input);};}; cPreviousFrame = cPreviousFrame(k);
+		var cPause = function(input){return function(){togglePause(input);};}; cPause = cPause(k);
+		var cNextFrame = function(input){return function(){changeFrame(0, input);};}; cNextFrame = cNextFrame(k);
+		var hMouseOver = function(input){return function(){overAndOut(true, input);};}; hMouseOver = hMouseOver(k);
+		var hMouseOut = function(input){return function(){overAndOut(false, input);};}; hMouseOut = hMouseOut(k);
 		controls = hostRef.childNodes[3].childNodes[0].childNodes[0];
 		if (document.all) {
-			controls.childNodes[0].attachEvent("onclick", function() { changeFrame(-2, k); });
-			controls.childNodes[1].attachEvent("onclick", function() { togglePause(k); });
-			controls.childNodes[2].attachEvent("onclick", function() { changeFrame(0, k); });
-			hostRef.attachEvent("onmouseover", function() { overAndOut(true, k); });
-			hostRef.attachEvent("onmouseout", function() { overAndOut(false, k); });
+			controls.childNodes[0].attachEvent("onclick", cPreviousFrame);
+			controls.childNodes[1].attachEvent("onclick", cPause);
+			controls.childNodes[2].attachEvent("onclick", cNextFrame);
+			hostRef.attachEvent("onmouseover", hMouseOver);
+			hostRef.attachEvent("onmouseout", hMouseOut);
 		} else {
-			controls.childNodes[0].addEventListener("click", function() { changeFrame(-2, k); }, false);
-			controls.childNodes[1].addEventListener("click", function() { togglePause(k); }, false);
-			controls.childNodes[2].addEventListener("click", function() { changeFrame(0, k); }, false);
-			hostRef.addEventListener("mouseover", function() { overAndOut(true, k); }, false);
-			hostRef.addEventListener("mouseout", function() { overAndOut(false, k); }, false);
+			controls.childNodes[0].addEventListener("click", cPreviousFrame, false);
+			controls.childNodes[1].addEventListener("click", cPause, false);
+			controls.childNodes[2].addEventListener("click", cNextFrame, false);
+			hostRef.addEventListener("mouseover", hMouseOver, false);
+			hostRef.addEventListener("mouseout", hMouseOut, false);
 		}
 		info.timer = setTimeout("fadeFrame(" + k + ")", info.imgs[0].holdTime ? info.imgs[0].holdTime : info.holdTime);
 	}
