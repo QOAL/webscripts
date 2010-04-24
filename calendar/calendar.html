@@ -72,12 +72,12 @@
 <body>
 	<div class="container">
 		<div class="demoTitle">Simple calendar demo</div><div class="spacer"></div>
-		This is a styled span <span id="d1" class="pickDateDiv" onclick="showCalendar(this,'calendar')">DD/MM/YYYY</span>, fun!
+		This is a styled span <span id="d1" class="pickDateDiv" onclick="showCalendar(event, this,'calendar')">DD/MM/YYYY</span>, fun!
 		<br />
 		<br />
-		Just a plain div: <div id="d2" onclick="showCalendar(this,'calendar')">DD/MM/YYYY</div>
+		Just a plain div: <div id="d2" onclick="showCalendar(event, this,'calendar')">DD/MM/YYYY</div>
 		<br />
-		Text input: <input type="text" maxlength="10" id="d3" value="DD/MM/YYYY" class="text date" ondblclick="showCalendar(this,'calendar')" onkeyup="validateInputDate(this)" onblur="validateInputDate(this)"/>
+		Text input: <input type="text" maxlength="10" id="d3" value="DD/MM/YYYY" class="text date" ondblclick="showCalendar(event, this,'calendar')" onkeyup="validateInputDate(this)" onblur="validateInputDate(this)"/>
 		<div class="calendar" id="calendar" onselectstart="return false;">Something is missing in me.</div>
 	</div>
 </body>

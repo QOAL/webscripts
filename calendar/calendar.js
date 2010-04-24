@@ -86,7 +86,9 @@ function hideCalendar() {
 	}
 }
 
-function showCalendar(object, calendarObj) {
+function showCalendar(e, object, calendarObj) {
+	if (!e) window.event.cancelBubble = true;
+	if (e.stopPropagation) e.stopPropagation();
 	if (cObject != null) {
 		cObject.style.visibility = "hidden";
 		cObject.innerHTML = '';
@@ -147,4 +149,10 @@ function validateInputDate(object) {
 			object.className = object.className + " invalidDate";
 		}
 	}
+}
+
+if (document.all) {
+	document.attachEvent("onclick", hideCalendar);
+} else {
+	document.addEventListener("click", hideCalendar, false);
 }
