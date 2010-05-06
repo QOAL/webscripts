@@ -64,8 +64,8 @@ function reloadcheck() {
 }
 
 function update(evt) {
-	mouseX = evt.pageX?evt.pageX:evt.clientX;
-	mouseY = evt.pageY?evt.pageY:evt.clientY;
+	mouseX = evt.pageX?evt.pageX:evt.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft);
+	mouseY = evt.pageY?evt.pageY:evt.clientY + (document.body.scrollTop || document.documentElement.scrollTop);
 	var pb = document.getElementById("pb").style;
 	if (overandout == 0 && posting == 0) {
 		if (pb.visibility == "visible") {
