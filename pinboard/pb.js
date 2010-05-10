@@ -1,6 +1,6 @@
 /*
     Pin board - a AJAX pin board
-    Copyright (C) 2008-2009 Scott Ellis
+    Copyright (C) 2008-2010 Scott Ellis
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -103,17 +103,17 @@ function postmsg() {
 		}
 	}
 	statusEle.style.visibility = "visible";
-	statusEle.style.width = statusEle.innerHTML.getWidth(rStyle) + "px";
+	statusEle.style.width = statusEle.innerHTML.getWidth() + "px";
 }
 
 //Needed for the text areas style when getting width. Work around? :S
 rStyle = {"fontsize": "12px", "fontFamily": "verdana, arial, helvetica, sans-serif", "padding": "5px"};
 
-String.prototype.getWidth = function(styleObject){
+String.prototype.getWidth = function() {
 	var test = document.createElement("span");
 	document.body.appendChild(test);
 	test.style.visibility = "hidden";
-	for(var i in styleObject){ test.style[i] = styleObject[i]; }
+	test.className = 'pbm';
 	test.innerHTML = this;
 	var w = test.offsetWidth;
 	document.body.removeChild(test);
@@ -132,7 +132,7 @@ function resize() {
 			longest = foo[x];
 		}
 	}
-	document.getElementById("msg").style.width = longest.getWidth(rStyle) + "px";
+	document.getElementById("msg").style.width = longest.getWidth() + 10 + "px";
 }
 
 function pbInit() {
@@ -141,9 +141,22 @@ function pbInit() {
 	document.getElementById("msgs").style.height = boardSizeY + 'px';
 	eventHook(document, "click", update);
 	eventHook(document.getElementById("pb"), "mouseover", function() { overandout = 1; });
-	eventHook(document.getElementById("pb"), "mouseout", function() { overandout = 0; });	
+	eventHook(document.getElementById("pb"), "mouseout", function() { overandout = 0; });
 	eventHook(document.getElementById("msg"), "keypress", resize);
-	eventHook(document.getElementById("msg"), "keyup", resize);	
+	eventHook(document.getElementById("msg"), "keyup", resize);
+	var msgs = document.getElementById("msgs").childNodes;
+	for (var i = 0; i < msgs.length; i++) {
+		if (msgs[i].innerHTML) {
+			foo = msgs[i].innerHTML.replace("<br />", "\n").split("\n");
+			longest = "";
+			for (x = 0; x < foo.length; x++) {
+				if (foo[x].length > longest.length) {
+					longest = foo[x];
+				}
+			}
+			msgs[i].style.width = longest.getWidth() + "px";
+		}
+	};
 }
 
 //The function could be made much nicer!
@@ -182,10 +195,24 @@ function ajaxFunction(str, str2, type, resid, waitmsg) {
 						document.getElementById('msg').value = "";
 						resEle.innerHTML = "";
 						resEle.style.visibility = "hidden";
+						var msgs = document.getElementById("msgs").childNodes;
+						for (var i = 0; i < msgs.length; i++) {
+							if (msgs[i].innerHTML && msgs[i].style.width == '') {
+								foo = msgs[i].innerHTML.replace("<br />", "\n").split("\n");
+								longest = "";
+								for (x = 0; x < foo.length; x++) {
+									if (foo[x].length > longest.length) {
+										longest = foo[x];
+									}
+								}
+								msgs[i].style.width = longest.getWidth() + "px";
+								msgs[i].style.display = 'block';
+							}
+						};
 					} else {
 						resEle.style.visibility = "visible";
 						resEle.innerHTML = rstr;
-						resEle.style.width = rstr.getWidth(rStyle) + "px";
+						resEle.style.width = rstr.getWidth() + "px";
 					}
 					posting = 0;
 				} else { //list reply

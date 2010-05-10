@@ -18,10 +18,13 @@ div.pbm, div.status, textarea {
 }
 
 div.pbm, div.status, textarea, input {
-	-moz-box-shadow: 0 0 5px #000;
-	-webkit-box-shadow: 0 0 5px #000;
-	box-shadow: 0 0 5px #000;
+	-moz-box-shadow: 1px 1px 5px #000;
+	-webkit-box-shadow: 1px 1px 5px #000;
+	box-shadow: 1px 1px 5px #000;
 	border: 0;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
 }
 
 div.pbm, textarea {
@@ -53,8 +56,6 @@ input:hover { background-position: 0 -20px; }
 
 input:active { background-position: 0 -40px; }
 
-textarea {
-	overflow: hidden;
-}
+textarea { overflow: hidden; }
 
 img { border: 0; }
