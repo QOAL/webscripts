@@ -41,6 +41,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	<link rel="stylesheet" title="default" type="text/css" href="pb.css" />
 	<title>Pinboard</title>
+	<script type="text/javascript" src="oldpb.js"></script>
 </head>
 <body>
 <div id="msgs">
@@ -52,7 +53,7 @@ Functions
 */
 
 //To save bandwidth you could use 3 digit hex values, update the JS version too for consistory.
-function random_hex_color() {
+function random_hex_colour() {
 	return sprintf("%02X%02X%02X", mt_rand(96, 255), mt_rand(96, 255), mt_rand(96, 255));
 }
 
@@ -130,7 +131,7 @@ function getMSGs() {
 			$ul = bbcode_format(htmlentities(trim($ul), ENT_COMPAT, "UTF-8")); $tul = '';
 			$tul = substr($ul,strpos($ul,chr(6)));
 			$tul = str_replace(chr(6) . '1' . chr(7),'	<div class="pbm" style="left:',$tul);
-			$tul = str_replace(chr(6) . '2' . chr(7),'px;background:#' . random_hex_color() . ';">',$tul);
+			$tul = str_replace(chr(6) . '2' . chr(7),'px;background:#' . random_hex_colour() . ';">',$tul);
 			$tul = str_replace(chr(6) . '3' . chr(7),'</div>' . "\n",$tul);
 			$tul = str_replace(chr(6) . chr(6) . chr(6),'<br />',$tul);
 			$output .= $tul;

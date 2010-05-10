@@ -132,7 +132,7 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <body>
 <div id="msgs">
 ' . getNewMSGs(0) . '</div>
-<div class="pbm" style="left:5px;top:5px;background:' . random_hex_color() . ';">Click anywhere to add a message!</div>
+<div class="pbm" style="left:5px;top:5px;background:' . random_hex_colour() . ';">Click anywhere to add a message!</div>
 <div id="pb" style="position:absolute;visibility:hidden;">
 	<form enctype="multipart/form-data" action="pinboard.php" method="post">
 		<textarea class="tastyle" name="msg" id="msg" rows="1" cols="5"></textarea>
@@ -142,7 +142,7 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		</div>
 	</form>
 </div>
-<div id="loading" class="pbm" style="left:5px;top:29px;background:' . random_hex_color() . ';visibility:hidden;"></div>
+<div id="loading" class="pbm" style="left:5px;top:29px;background:' . random_hex_colour() . ';visibility:hidden;"></div>
 </body></html>';
 
 /*
@@ -155,7 +155,7 @@ function writestringtofile($filename,$filestring) {
 }
 
 //To save bandwidth you could use 3 digit hex values, update the JS version too for consistory.
-function random_hex_color() {
+function random_hex_colour() {
 	return '#' . sprintf("%02X%02X%02X", mt_rand(96, 255), mt_rand(96, 255), mt_rand(96, 255));
 
 
@@ -251,7 +251,7 @@ function getNewMSGs($oldtime) {
 			if ($time2 > $oldtime) {
 				$tul = substr($ul,strpos($ul,chr(6)));
 				$tul = str_replace(chr(6) . '1' . chr(7),'	<div class="pbm" style="' . ($oldtime > 0 ? 'display:none;' : '') . 'left:',$tul);
-				$tul = str_replace(chr(6) . '2' . chr(7),'px;background:' . random_hex_color() . ';">',$tul);
+				$tul = str_replace(chr(6) . '2' . chr(7),'px;background:' . random_hex_colour() . ';">',$tul);
 				$tul = str_replace(chr(6) . '3' . chr(7),'</div>' . "\n",$tul);
 				$tul = str_replace(chr(6) . chr(6) . chr(6),'<br />',$tul);
 				$output .= $tul;

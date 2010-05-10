@@ -106,9 +106,6 @@ function postmsg() {
 	statusEle.style.width = statusEle.innerHTML.getWidth() + "px";
 }
 
-//Needed for the text areas style when getting width. Work around? :S
-rStyle = {"fontsize": "12px", "fontFamily": "verdana, arial, helvetica, sans-serif", "padding": "5px"};
-
 String.prototype.getWidth = function() {
 	var test = document.createElement("span");
 	document.body.appendChild(test);
