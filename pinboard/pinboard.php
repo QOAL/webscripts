@@ -150,22 +150,13 @@ Functions
 */
 function writestringtofile($filename,$filestring) {
 	$handle	= fopen($filename, 'a');
-	fwrite($handle, utf8_encode($filestring . "\n"));
+	fwrite($handle, $filestring . "\n");
 	fclose($handle);
 }
 
 //To save bandwidth you could use 3 digit hex values, update the JS version too for consistory.
 function random_hex_colour() {
 	return '#' . sprintf("%02X%02X%02X", mt_rand(96, 255), mt_rand(96, 255), mt_rand(96, 255));
-
-
-
-
-
-
-
-
-
 }
 
 //Even though we don't allow people to post links, it's nice to let an admin post them.
