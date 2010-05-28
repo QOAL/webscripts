@@ -17,7 +17,7 @@ div.qonsole {
 	overflow: auto fails because no height is stated, but if a height is the it gets top aligned :S*/
 }
 
-div.qframe {
+#qframe {
 	background: black; /*rgba(64,0,128,0.75);*/
 	position: fixed;
 	top: -250px;

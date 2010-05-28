@@ -1,17 +1,8 @@
 This read me assumes you're quite competent when it comes to all this.
 
-How to insert Qonsole into a web page:
-	Head:
+To get Qonsole working on a page simple insert these two lines in the head of the document:
 		<link rel="stylesheet" type="text/css" href="qonsole.css" />
 		<script type="text/javascript" src="qonsole.js"></script>
-	Body:
-		<div id="qframe" class="qframe">
-			<div id="qonsole" class="qonsole"><big><b>Qonsole</b></big><br />&bull; Need <a href="#q:help">help</a>?<br /></div>
-			<div class="qinput"><b>&raquo;</b> <input type="text" id="qinput"></div>
-		</div>
-
-If you would like the qonsole to initialise on page load then add the following to the body tag:
-	onload="qonsoleInit();"
 
 You should be good to go now!
 

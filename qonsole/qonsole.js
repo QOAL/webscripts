@@ -32,6 +32,14 @@ var inputhistory = [];
 var historypos = 0;
 var oldhash = "";
 
+function eventHook(ele, event, func) {
+	if (document.all) {
+		ele.attachEvent("on" + event, func);
+	} else {
+		ele.addEventListener(event, func, false);
+	}
+}
+
 function fireconsole(evt) {
 	qInput = document.getElementById("qinput");
 	try {
@@ -246,6 +254,12 @@ function anchorCheck() {
 }
 
 function qonsoleInit() {
+	newWin = document.createElement('div');
+	newWin.id = 'qframe';
+	newWin.innerHTML = '<div id="qonsole" class="qonsole"><big><b>Qonsole</b></big><br />&bull; Need <a href="#q:help">help</a>?<br /></div>' +
+		'<div class="qinput"><b>&raquo;</b> <input type="text" id="qinput"></div>';
+	document.body.insertBefore(newWin, null);
+
 	resizeinput();
 	if ("onhashchange" in window) {
 		window.onhashchange = anchorCheck;
@@ -317,4 +331,4 @@ function qajax(str) {
 	document.getElementById("qinput").disabled = true;
 }
 
-//onLoad=qonsoleInit();
+eventHook(window, "load", qonsoleInit);
