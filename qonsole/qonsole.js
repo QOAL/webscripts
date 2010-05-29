@@ -266,21 +266,12 @@ function qonsoleInit() {
 	} else {
 		setInterval(anchorCheck, 500);
 	}
-	if (document.all) {
-		document.attachEvent("onkeypress", fireconsole);
-		window.attachEvent("onresize", resizeinput);
-		document.getElementById("qframe").attachEvent("onclick", function() { document.getElementById('qinput').focus(); });
-		document.getElementById("qinput").attachEvent("onfocus", function() { consolefocused = true; });
-		document.getElementById("qinput").attachEvent("onblur", function() { consolefocused = false; });
-		document.getElementById("qinput").attachEvent("onkeydown", fireconsole);
-	} else {
-		document.addEventListener("keypress", fireconsole, false);
-		window.addEventListener("resize", resizeinput, false);
-		document.getElementById("qframe").addEventListener("click", function() { document.getElementById('qinput').focus(); }, false);
-		document.getElementById("qinput").addEventListener("focus", function() { consolefocused = true; }, false);
-		document.getElementById("qinput").addEventListener("blur", function() { consolefocused = false; }, false);
-		document.getElementById("qinput").addEventListener("keydown", fireconsole, false);
-	}
+	eventHook(document, "keypress", fireconsole);
+	eventHook(window, "resize", resizeinput);
+	eventHook(document.getElementById("qframe"), "click", function() { document.getElementById('qinput').focus(); });
+	eventHook(document.getElementById("qinput"), "focus", function() { consolefocused = true; });
+	eventHook(document.getElementById("qinput"), "blur", function() { consolefocused = false; });
+	eventHook(document.getElementById("qinput"), "keydown", fireconsole);
 }
 
 function qajax(str) {
