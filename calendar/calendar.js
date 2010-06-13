@@ -2,6 +2,14 @@ var cDay, cMonth, cYear; //Current displayed calendar page
 var sDay = -1, sMonth, sYear; //Selected page on calendar
 var cObject, cRefObj; //Calendar container, Object that called the current calendar
 
+function eventHook(ele, event, func) {
+	if (document.all) {
+		ele.attachEvent("on" + event, func);
+	} else {
+		ele.addEventListener(event, func, false);
+	}
+}
+
 function calendar(date) {
 /* Based on: http://scripts.franciscocharrua.com/calendar.php */
 	if (date == null) { date = new Date(); }
@@ -151,8 +159,38 @@ function validateInputDate(object) {
 	}
 }
 
-if (document.all) {
-	document.attachEvent("onclick", hideCalendar);
-} else {
-	document.addEventListener("click", hideCalendar, false);
+function ignoreEvent(e) {
+	if (!e) window.event.cancelBubble = true;
+	if (e.stopPropagation) e.stopPropagation();
 }
+
+//http://www.dustindiaz.com/getelementsbyclass/
+function getElementsByClass(searchClass,node,tag) {
+	var classElements = new Array();
+	if ( node == null )
+		node = document;
+	if ( tag == null )
+		tag = '*';
+	var els = node.getElementsByTagName(tag);
+	var elsLen = els.length;
+	var pattern = new RegExp("(^|\\s)"+searchClass+"(\\s|$)");
+	for (i = 0, j = 0; i < elsLen; i++) {
+		if ( pattern.test(els[i].className) ) {
+			classElements[j] = els[i];
+			j++;
+		}
+	}
+	return classElements;
+}
+
+function calendarInit() {
+	eventHook(document, 'click', hideCalendar);
+	var cals = getElementsByClass('calendar');
+	for (i in cals) {
+		if (cals[i]) {
+			eventHook(cals[i], 'click', ignoreEvent);
+		}
+	}
+}
+
+eventHook(window, "load", calendarInit);
