@@ -27,14 +27,14 @@ Change the path for the input's background:
 Annoying extra step, I know.
 
 
--> You can also change the time zone the script uses, default is GMT.
-	date_default_timezone_set('GMT');
+-> You can also change the time zone the script uses, default is Europe/London.
+	date_default_timezone_set('Europe/London');
 Time is used to record when a message was posted and is only used internally.
 
 
 -> You can change the size of the area where you can post messages inside by editing:
-	$BOARD_SIZE_X = 2000;
-	$BOARD_SIZE_Y = 2000;
+	$BOARD_SIZE_X = 5000;
+	$BOARD_SIZE_Y = 5000;
 The size uses pixels. (Hi, I'm Mr Obvious!)
 
 

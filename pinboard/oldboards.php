@@ -1,7 +1,7 @@
 <?php
 /*
     Pinboard - a AJAX pin board
-    Copyright (C) 2008-2009 Scott Ellis
+    Copyright (C) 2008-2010 Scott Ellis
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as
@@ -22,10 +22,10 @@
 date_default_timezone_set('GMT');
 
 $PB_PATH = 'pb/';
+$IMGS_PATH = "images/";
 
 if (isset($_GET['v'])) {
-	if (file_exists($PB_PATH . $_GET['v'] . '.txt'))
-	{
+	if (file_exists($PB_PATH . $_GET['v'] . '.txt')) {
 		$PB_FILE = $PB_PATH . $_GET['v'] . '.txt';
 	}
 }
@@ -39,7 +39,7 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-	<link rel="stylesheet" title="default" type="text/css" href="pb.css" />
+	<link rel="stylesheet" type="text/css" href="pb.css" />
 	<title>Pinboard</title>
 	<script type="text/javascript" src="oldpb.js"></script>
 </head>
@@ -72,7 +72,7 @@ function bbcode_format($str) {
 	$output = array(
 		'<strong>$1</strong>',
 		'<em>$1</em>',
-		'<u>$1</u>',
+		'<span style="text-decoration: underline">$1</span>',
 		'<del>$1</del>',
 		'<a href="$1" target="_blank">$2</a>',
 		'<a href="$1" target="_blank">$1</a>',
@@ -84,41 +84,27 @@ function bbcode_format($str) {
 //This function needs fixing up/improving!
 function bbcode_smilies($str) {
 	global $IMGS_PATH;
-	$input = array(':)', ':D', ';)', ':|', ':(', ":'(", '&gt;:[', ':p', ':P', ':o',
-		':O', '&lt;_&lt;', '&gt;_&gt;', ':s', ':S', ' :/', ":\\");
-	$output = array(
+	$smilesIn = array('/:\)/i', '/:D/i', '/;\)/i', '/:\|/i', '/:\(/i', "/:'\(/i", '/&gt;:\[/i',
+		'/:P/i', '/:O/i', '/&lt;_&lt;/i', '/&gt;_&gt;/i', '/:S/i', '/\B:\//i', '/\B:\\\/i',
+	);
+	$smilesOut = array(
 		'<img src="' . $IMGS_PATH . 'happy.gif" alt=":)" />',
 		'<img src="' . $IMGS_PATH . 'veryhappy.gif" alt=":D" />',
 		'<img src="' . $IMGS_PATH . 'wink.gif" alt=";)" />',
 		'<img src="' . $IMGS_PATH . 'blank.gif" alt=":|" />',
 		'<img src="' . $IMGS_PATH . 'sad.gif" alt=":(" />',
 		'<img src="' . $IMGS_PATH . 'crying.gif" alt=":\'(" />',
-		'<img src="' . $IMGS_PATH . 'mad.gif" alt="&gt;:[" />',
-		'<img src="' . $IMGS_PATH . 'tounge.gif" alt=":p" />',
+		'<img src="' . $IMGS_PATH . 'mad.gif" alt=">:[" />',
 		'<img src="' . $IMGS_PATH . 'tounge.gif" alt=":P" />',
-		'<img src="' . $IMGS_PATH . 'shock.gif" alt=":o" />',
 		'<img src="' . $IMGS_PATH . 'shock.gif" alt=":O" />',
-		'<img src="' . $IMGS_PATH . 'paranoid.gif" alt="&lt;_&lt;" />',
-		'<img src="' . $IMGS_PATH . 'paranoid2.gif" alt="&gt;_&gt;" />',
-		'<img src="' . $IMGS_PATH . 'confused.gif" alt=":s" />',
+		'<img src="' . $IMGS_PATH . 'paranoid.gif" alt="<_<" />',
+		'<img src="' . $IMGS_PATH . 'paranoid2.gif" alt=">_>" />',
 		'<img src="' . $IMGS_PATH . 'confused.gif" alt=":S" />',
-		' <img src="' . $IMGS_PATH . 'indifferent.gif" alt=":/" />',
-		'<img src="' . $IMGS_PATH . 'indifferent2.gif" alt=":\" />');
-	$str = str_replace($input, $output, $str);
+		'<img src="' . $IMGS_PATH . 'indifferent.gif" alt=":/" />',
+		'<img src="' . $IMGS_PATH . 'indifferent2.gif" alt=":\" />',
+	);
+	$str = preg_replace($smilesIn, $smilesOut, $str);
 	return $str;
-}
-
-//Modified version of http://uk2.php.net/manual/en/function.chr.php#70931
-//Assuming this function is in the 'public domain'.
-function stripbad($string) {
-	for ($i=0;$i<strlen($string);$i++) {
-		$chr = $string{$i};
-		$ord = ord($chr);
-		if ($ord <= 9 || $ord == 11 || $ord == 12 || ($ord >= 14 && $ord <= 31) || $ord == 127) {
-			$string{$i} = null;
-		}
-	}
-	return str_replace("\0","",$string);
 }
 
 //Dunno if this can be made more efficient

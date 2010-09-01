@@ -19,12 +19,12 @@
 
 //This was inspired by the now defunct http://www.nowasciana.pl/
 
-date_default_timezone_set('GMT');
+date_default_timezone_set('Europe/London');
 
 $PB_FILE = "pb.txt";
 $IMGS_PATH = "images/";
-$BOARD_SIZE_X = 2000;
-$BOARD_SIZE_Y = 2000;
+$BOARD_SIZE_X = 5000;
+$BOARD_SIZE_Y = 5000;
 
 /*
 AJAX
@@ -114,14 +114,12 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-	<link rel="stylesheet" title="default" type="text/css" href="pb.css" />
+	<link rel="stylesheet" type="text/css" href="pb.css" />
 	<title>Pinboard</title>
 	<script type="text/javascript">
 	//<![CDATA[
-	if (document.images) {
-		wait_image = new Image(10,10); 
-		wait_image.src="' . $IMGS_PATH . 'wait.gif"; 
-	}
+	var wait_image = document.createElement(\'img\');
+	wait_image.src = "' . $IMGS_PATH . 'wait.gif";
 	var unixTime = "' . time() . '";
 	var boardSizeX ="' . $BOARD_SIZE_X . '";
 	var boardSizeY ="' . $BOARD_SIZE_Y . '";
@@ -148,9 +146,114 @@ Echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 /*
 Functions
 */
+//From http://uk2.php.net/manual/en/function.urldecode.php#79595
+//Assuming this function is in the 'public domain'.
+function utf8_urldecode($str) {
+	$str = preg_replace("/%u([0-9a-f]{3,4})/i", "&#x\\1;", urldecode($str));
+	return html_entity_decode($str, null, 'UTF-8');;
+}
+
+//Okay these encoding functions may seem like a lot of code, however they're only called when something is written to the $PB_FILE
+//http://www.php.net/manual/en/function.mb-check-encoding.php#95289
+function check_utf8($str) {
+	$len = strlen($str);
+	for($i = 0; $i < $len; $i++){
+		$c = ord($str[$i]);
+		if ($c > 128) {
+			if (($c > 247)) return false;
+			elseif ($c > 239) $bytes = 4;
+			elseif ($c > 223) $bytes = 3;
+			elseif ($c > 191) $bytes = 2;
+			else return false;
+			if (($i + $bytes) > $len) return false;
+			while ($bytes > 1) {
+				$i++;
+				$b = ord($str[$i]);
+				if ($b < 128 || $b > 191) return false;
+				$bytes--;
+			}
+		}
+	}
+	return true;
+} // end of check_utf8 
+
+//This set of code fixes latin chars mixed in to unicode so it all works properly!
+//http://www.php.net/manual/en/function.utf8-encode.php#93162 && http://www.php.net/manual/en/function.utf8-encode.php#95477
+function init_byte_map(){
+	global $byte_map;
+	for($x=128;$x<256;++$x){
+		$byte_map[chr($x)]=utf8_encode(chr($x));
+	}
+	$cp1252_map=array(
+		"\x80"=>"\xE2\x82\xAC",    // EURO SIGN
+		"\x82" => "\xE2\x80\x9A",  // SINGLE LOW-9 QUOTATION MARK
+		"\x83" => "\xC6\x92",      // LATIN SMALL LETTER F WITH HOOK
+		"\x84" => "\xE2\x80\x9E",  // DOUBLE LOW-9 QUOTATION MARK
+		"\x85" => "\xE2\x80\xA6",  // HORIZONTAL ELLIPSIS
+		"\x86" => "\xE2\x80\xA0",  // DAGGER
+		"\x87" => "\xE2\x80\xA1",  // DOUBLE DAGGER
+		"\x88" => "\xCB\x86",      // MODIFIER LETTER CIRCUMFLEX ACCENT
+		"\x89" => "\xE2\x80\xB0",  // PER MILLE SIGN
+		"\x8A" => "\xC5\xA0",      // LATIN CAPITAL LETTER S WITH CARON
+		"\x8B" => "\xE2\x80\xB9",  // SINGLE LEFT-POINTING ANGLE QUOTATION MARK
+		"\x8C" => "\xC5\x92",      // LATIN CAPITAL LIGATURE OE
+		"\x8E" => "\xC5\xBD",      // LATIN CAPITAL LETTER Z WITH CARON
+		"\x91" => "\xE2\x80\x98",  // LEFT SINGLE QUOTATION MARK
+		"\x92" => "\xE2\x80\x99",  // RIGHT SINGLE QUOTATION MARK
+		"\x93" => "\xE2\x80\x9C",  // LEFT DOUBLE QUOTATION MARK
+		"\x94" => "\xE2\x80\x9D",  // RIGHT DOUBLE QUOTATION MARK
+		"\x95" => "\xE2\x80\xA2",  // BULLET
+		"\x96" => "\xE2\x80\x93",  // EN DASH
+		"\x97" => "\xE2\x80\x94",  // EM DASH
+		"\x98" => "\xCB\x9C",      // SMALL TILDE
+		"\x99" => "\xE2\x84\xA2",  // TRADE MARK SIGN
+		"\x9A" => "\xC5\xA1",      // LATIN SMALL LETTER S WITH CARON
+		"\x9B" => "\xE2\x80\xBA",  // SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+		"\x9C" => "\xC5\x93",      // LATIN SMALL LIGATURE OE
+		"\x9E" => "\xC5\xBE",      // LATIN SMALL LETTER Z WITH CARON
+		"\x9F" => "\xC5\xB8"       // LATIN CAPITAL LETTER Y WITH DIAERESIS
+	);
+	foreach($cp1252_map as $k=>$v){
+		$byte_map[$k]=$v;
+	}
+}
+
+function fix_latin($instr){
+	//if(mb_check_encoding($instr,'UTF-8'))return $instr; // no need for the rest if it's all valid UTF-8 already
+	if(check_utf8($instr))return $instr; // no need for the rest if it's all valid UTF-8 already
+	
+	$ascii_char='[\x00-\x7F]';
+	$cont_byte='[\x80-\xBF]';
+	$utf8_2='[\xC0-\xDF]'.$cont_byte;
+	$utf8_3='[\xE0-\xEF]'.$cont_byte.'{2}';
+	$utf8_4='[\xF0-\xF7]'.$cont_byte.'{3}';
+	$utf8_5='[\xF8-\xFB]'.$cont_byte.'{4}';
+	$nibble_good_chars = "@^($ascii_char+|$utf8_2|$utf8_3|$utf8_4|$utf8_5)(.*)$@s";
+
+	global $byte_map;
+	$outstr='';
+	$char='';
+	$rest='';
+	while((strlen($instr))>0){
+		if(1==preg_match($nibble_good_chars,$instr,$match)){
+			$char=$match[1];
+			$rest=$match[2];
+			$outstr.=$char;
+		}elseif(1==preg_match('@^(.)(.*)$@s',$instr,$match)){
+			$char=$match[1];
+			$rest=$match[2];
+			$outstr.=$byte_map[$char];
+		}
+		$instr=$rest;
+	}
+	return $outstr;
+}
+
 function writestringtofile($filename,$filestring) {
+	$byte_map=array();
+	init_byte_map();
 	$handle	= fopen($filename, 'a');
-	fwrite($handle, $filestring . "\n");
+	fwrite($handle, fix_latin($filestring) . "\n");
 	fclose($handle);
 }
 
@@ -174,7 +277,7 @@ function bbcode_format($str) {
 	$output = array(
 		'<strong>$1</strong>',
 		'<em>$1</em>',
-		'<u>$1</u>',
+		'<span style="text-decoration: underline">$1</span>',
 		'<del>$1</del>',
 		'<a href="$1" target="_blank">$2</a>',
 		'<a href="$1" target="_blank">$1</a>',
@@ -186,27 +289,26 @@ function bbcode_format($str) {
 //This function needs fixing up/improving!
 function bbcode_smilies($str) {
 	global $IMGS_PATH;
-	$input = array(':)', ':D', ';)', ':|', ':(', ":'(", '&gt;:[', ':p', ':P', ':o',
-		':O', '&lt;_&lt;', '&gt;_&gt;', ':s', ':S', ' :/', ":\\");
-	$output = array(
+	$smilesIn = array('/:\)/i', '/:D/i', '/;\)/i', '/:\|/i', '/:\(/i', "/:'\(/i", '/&gt;:\[/i',
+		'/:P/i', '/:O/i', '/&lt;_&lt;/i', '/&gt;_&gt;/i', '/:S/i', '/\B:\//i', '/\B:\\\/i',
+	);
+	$smilesOut = array(
 		'<img src="' . $IMGS_PATH . 'happy.gif" alt=":)" />',
 		'<img src="' . $IMGS_PATH . 'veryhappy.gif" alt=":D" />',
 		'<img src="' . $IMGS_PATH . 'wink.gif" alt=";)" />',
 		'<img src="' . $IMGS_PATH . 'blank.gif" alt=":|" />',
 		'<img src="' . $IMGS_PATH . 'sad.gif" alt=":(" />',
 		'<img src="' . $IMGS_PATH . 'crying.gif" alt=":\'(" />',
-		'<img src="' . $IMGS_PATH . 'mad.gif" alt="&gt;:[" />',
-		'<img src="' . $IMGS_PATH . 'tounge.gif" alt=":p" />',
+		'<img src="' . $IMGS_PATH . 'mad.gif" alt=">:[" />',
 		'<img src="' . $IMGS_PATH . 'tounge.gif" alt=":P" />',
-		'<img src="' . $IMGS_PATH . 'shock.gif" alt=":o" />',
 		'<img src="' . $IMGS_PATH . 'shock.gif" alt=":O" />',
-		'<img src="' . $IMGS_PATH . 'paranoid.gif" alt="&lt;_&lt;" />',
-		'<img src="' . $IMGS_PATH . 'paranoid2.gif" alt="&gt;_&gt;" />',
-		'<img src="' . $IMGS_PATH . 'confused.gif" alt=":s" />',
+		'<img src="' . $IMGS_PATH . 'paranoid.gif" alt="<_<" />',
+		'<img src="' . $IMGS_PATH . 'paranoid2.gif" alt=">_>" />',
 		'<img src="' . $IMGS_PATH . 'confused.gif" alt=":S" />',
-		' <img src="' . $IMGS_PATH . 'indifferent.gif" alt=":/" />',
-		'<img src="' . $IMGS_PATH . 'indifferent2.gif" alt=":\" />');
-	$str = str_replace($input, $output, $str);
+		'<img src="' . $IMGS_PATH . 'indifferent.gif" alt=":/" />',
+		'<img src="' . $IMGS_PATH . 'indifferent2.gif" alt=":\" />',
+	);
+	$str = preg_replace($smilesIn, $smilesOut, $str);
 	return $str;
 }
 
@@ -223,13 +325,6 @@ function stripbad($string) {
 	return str_replace("\0","",$string);
 }
 
-//From http://uk2.php.net/manual/en/function.urldecode.php#79595
-//Assuming this function is in the 'public domain'.
-function utf8_urldecode($str) {
-	$str = preg_replace("/%u([0-9a-f]{3,4})/i", "&#x\\1;", urldecode($str));
-	return html_entity_decode($str, null, 'UTF-8');;
-}
-
 //Dunno if this can be made more efficient
 function getNewMSGs($oldtime) {
 	global $PB_FILE;
@@ -237,7 +332,7 @@ function getNewMSGs($oldtime) {
 	if (file_exists($PB_FILE)) {
 		$pblist = file($PB_FILE);
 		foreach ($pblist as $ul) {
-			$ul = bbcode_format(htmlentities(trim($ul), ENT_COMPAT, "UTF-8")); $tul = '';
+			$ul = bbcode_format(htmlentities(trim($ul), ENT_QUOTES, "UTF-8")); $tul = '';
 			$time2 = substr($ul, 0, strpos($ul, chr(6)));
 			if ($time2 > $oldtime) {
 				$tul = substr($ul,strpos($ul,chr(6)));
