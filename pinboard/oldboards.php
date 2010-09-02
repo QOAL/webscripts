@@ -60,7 +60,7 @@ function random_hex_colour() {
 //Even though we don't allow people to post links, it's nice to let an admin post them.
 //Also very easy to add extra bbcode here, but it's not a good idea due to attention whores/kids/spammers.
 function bbcode_format($str) {
-	$str = bbcode_smilies ($str);
+	$str = bbcode_smilies($str);
 	$input = array(
 		'/\[b\](.*?)\[\/b\]/is',
 		'/\[i\](.*?)\[\/i\]/is',
@@ -84,7 +84,7 @@ function bbcode_format($str) {
 //This function needs fixing up/improving!
 function bbcode_smilies($str) {
 	global $IMGS_PATH;
-	$smilesIn = array('/:\)/i', '/:D/i', '/;\)/i', '/:\|/i', '/:\(/i', "/:'\(/i", '/&gt;:\[/i',
+	$smilesIn = array('/:\)/i', '/:D/i', '/;\)/i', '/:\|/i', '/:\(/i', "/:&#039;\(/i", '/&gt;:\[/i',
 		'/:P/i', '/:O/i', '/&lt;_&lt;/i', '/&gt;_&gt;/i', '/:S/i', '/\B:\//i', '/\B:\\\/i',
 	);
 	$smilesOut = array(
