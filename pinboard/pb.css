@@ -33,6 +33,7 @@ div.pbm, textarea {
 
 div.pbm, div.status {
 	position: absolute;
+	white-space: pre;
 }
 
 div.status {

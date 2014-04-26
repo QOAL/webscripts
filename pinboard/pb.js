@@ -103,7 +103,6 @@ function postmsg() {
 		}
 	}
 	statusEle.style.visibility = "visible";
-	statusEle.style.width = statusEle.innerHTML.getWidth() + "px";
 }
 
 String.prototype.getWidth = function() {
@@ -141,19 +140,6 @@ function pbInit() {
 	eventHook(document.getElementById("pb"), "mouseout", function() { overandout = 0; });
 	eventHook(document.getElementById("msg"), "keypress", resize);
 	eventHook(document.getElementById("msg"), "keyup", resize);
-	var msgs = document.getElementById("msgs").childNodes;
-	for (var i = 0; i < msgs.length; i++) {
-		if (msgs[i].innerHTML) {
-			foo = msgs[i].innerHTML.replace("<br />", "\n").split("\n");
-			longest = "";
-			for (x = 0; x < foo.length; x++) {
-				if (foo[x].length > longest.length) {
-					longest = foo[x];
-				}
-			}
-			msgs[i].style.width = longest.getWidth() + "px";
-		}
-	};
 }
 
 //The function could be made much nicer!
@@ -192,24 +178,9 @@ function ajaxFunction(str, str2, type, resid, waitmsg) {
 						document.getElementById('msg').value = "";
 						resEle.innerHTML = "";
 						resEle.style.visibility = "hidden";
-						var msgs = document.getElementById("msgs").childNodes;
-						for (var i = 0; i < msgs.length; i++) {
-							if (msgs[i].innerHTML && msgs[i].style.width == '') {
-								foo = msgs[i].innerHTML.replace("<br />", "\n").split("\n");
-								longest = "";
-								for (x = 0; x < foo.length; x++) {
-									if (foo[x].length > longest.length) {
-										longest = foo[x];
-									}
-								}
-								msgs[i].style.width = longest.getWidth() + "px";
-								msgs[i].style.display = 'block';
-							}
-						};
 					} else {
 						resEle.style.visibility = "visible";
 						resEle.innerHTML = rstr;
-						resEle.style.width = rstr.getWidth() + "px";
 					}
 					posting = 0;
 				} else { //list reply

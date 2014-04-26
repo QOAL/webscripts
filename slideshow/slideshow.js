@@ -117,6 +117,7 @@ function startslideShow(info) {
 		var hostW = hostRef.style.width, hostH = hostRef.style.height;
 		uri = info.imgs[0].uri ? info.imgs[0].uri : (info.uri ? info.uri : "");
 		uri = uri ? ' href="' + uri + '"' : "";
+		if (!info.imgs[info.imgs.length -1]) info.imgs.pop(); //fix for IE
 		hostRef.innerHTML = '<div style="position: absolute; z-index: 1;"><a' + uri 
 			+ '><img id="' + info.host + 'I1" src="' + info.imgs[0].src + '" alt="' +
 			info.imgs[0].alt + '" width="' + hostW + '" height="' + hostH + '" /></a></div>' +

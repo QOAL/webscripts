@@ -164,11 +164,11 @@ function createthumb($name,$filename,$new_w,$new_h)
 	if ($old_x > $old_y) 
 	{
 		$thumb_w=$new_w;
-		$thumb_h=($old_y/$old_x) * $new_w;
+		$thumb_h=round(($old_y/$old_x) * $new_w);
 	}
 	if ($old_x < $old_y) 
 	{
-		$thumb_w=($old_x/$old_y) * $new_h;
+		$thumb_w=round(($old_x/$old_y) * $new_h);
 		$thumb_h=$new_h;
 	}
 	if ($old_x == $old_y) 

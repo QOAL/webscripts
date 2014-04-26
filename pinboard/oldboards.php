@@ -41,7 +41,6 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="pb.css" />
 	<title>Pinboard</title>
-	<script type="text/javascript" src="oldpb.js"></script>
 </head>
 <body>
 <div id="msgs">
